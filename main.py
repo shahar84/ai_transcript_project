@@ -112,7 +112,7 @@ def save_transcription(transcription_data, video_path, output_folder="output"):
     return text_output_path, json_output_path
 
 
-def main():
+def main(video_path: str):
     """Main function to orchestrate the video transcription workflow.
     
     Process:
@@ -123,8 +123,6 @@ def main():
     Returns:
         dict: Transcription result data
     """
-    video_path = "videos/steve-interview.mp4"
-
     print(f"Starting transcription workflow for: {video_path}")
     print("-" * 50)
 
@@ -151,4 +149,5 @@ def main():
 
 if __name__ == "__main__":
     """Entry point when script is run directly."""
-    main()
+    video_path = "videos/steve-interview.mp4"
+    main(video_path)
