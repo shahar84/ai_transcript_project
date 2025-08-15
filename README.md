@@ -1,21 +1,41 @@
 # AI Transcript Project
 
-## What it does
-This script:
-1. Extracts audio from a video file (e.g. an interview with Steve Jobs)
-2. Sends the audio to Replicate's incredibly-fast-whisper model for transcription
-3. Prints the resulting transcription JSON
+A Python application that extracts audio from video files and transcribes them using Replicate's Whisper model. The main workflow is: video → audio extraction → AI transcription.
+
+## Prerequisites
+- Python 3.x
+- Replicate API account and token
 
 ## Setup
-1. Install dependencies:
+1. Create and activate a Python virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
+
+2. Install dependencies:
+```bash
 pip install -r requirements.txt
 ```
 
-2. Add your Replicate API token and whisper model version to `main.py`.
+3. Add your Replicate API token to the `REPLICATE_API_TOKEN` variable in `main.py`
 
-## Run
-Place `steve-interview.mp4` in the same directory and run:
-```
+4. Place a video file in the project `videos` folder
+
+## Usage
+```bash
 python main.py
 ```
+
+## Architecture
+The application consists of three main functions in `main.py`:
+
+- `extract_audio()` - Uses MoviePy to extract audio from video files
+- `transcribe_audio()` - Sends audio to Replicate's Whisper API for transcription  
+- `main()` - Orchestrates the workflow and outputs JSON results
+
+## API Integration
+Uses Replicate's incredibly-fast-whisper model for transcription. The application makes HTTP requests to `https://api.replicate.com/v1/predictions` with the audio file and language parameters.
+
+## Output
+The application outputs transcription results in JSON format.
