@@ -3,3 +3,4 @@ requests==2.32.4
 python-dotenv==1.1.1
 pydantic-settings
 replicate
+openai

@@ -11,6 +11,7 @@ load_dotenv(dotenv_path=env_path)
 class Settings(BaseSettings):
     REPLICATE_API_TOKEN: str
     TRANSCRIBE_MODEL: str = "vaibhavs10/incredibly-fast-whisper:3ab86df6c8f54c11309d4d1f930ac292bad43ace52d10c80d87eb258b3c9f79c"
+    OPENAI_API_KEY: str = None
     # Tell Pydantic where to read from
     model_config = SettingsConfigDict(env_file=env_path, env_file_encoding='utf-8')
 

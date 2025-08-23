@@ -6,7 +6,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a Python project that extracts audio from video files and transcribes them using Replicate's Whisper model. The main workflow is: video → audio extraction → AI transcription.
 
 ## Setup and Dependencies
-Install dependencies:
+First, install ffmpeg (required by MoviePy for video processing):
+
+**macOS:**
+```bash
+brew install ffmpeg
+```
+
+**Windows:**
+Download from https://ffmpeg.org/download.html or use:
+```bash
+choco install ffmpeg
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt update && sudo apt install ffmpeg
+```
+
+Then install Python dependencies:
 ```bash
 pip install -r requirements.txt
 ```
