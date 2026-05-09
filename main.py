@@ -90,7 +90,7 @@ def save_transcription(transcription_data, video_path, output_folder="output"):
         tuple: (text_file_path, json_file_path)
         
     Example:
-        >>> save_transcription(result, "videos/interview.mp4")
+        # >>> save_transcription(result, "videos/interview.mp4")
         ("output/interview.txt", "output/interview.json")
     """
     # Create output folder if it doesn't exist
@@ -149,5 +149,5 @@ def main(video_path: str):
 
 if __name__ == "__main__":
     """Entry point when script is run directly."""
-    video_path = "videos/steve-interview.mp4"
+    video_path = "videos/date.mp4"
     main(video_path)
