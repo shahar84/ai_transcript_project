@@ -20,3 +20,32 @@ def slugify(text: str) -> str:
     hyphenated = re.sub(r"[\s_]+", "-", no_special)
     deduplicated = re.sub(r"-+", "-", hyphenated)
     return deduplicated.strip("-")
+
+
+def create_project(name: str) -> Path:
+    project_dir = PROJECTS_DIR / name
+    (project_dir / "videos").mkdir(parents=True, exist_ok=True)
+    (project_dir / "output").mkdir(parents=True, exist_ok=True)
+    urls_file = project_dir / "urls.txt"
+    if not urls_file.exists():
+        urls_file.write_text(
+            "# Add YouTube URLs below, one per line\n"
+            "# Format: URL [optional-name]\n"
+            "# Example: https://youtube.com/watch?v=abc my-video\n"
+        )
+    return project_dir
+
+
+def is_complete(project_name: str, video_name: str) -> bool:
+    json_path = PROJECTS_DIR / project_name / "output" / f"{video_name}.json"
+    return json_path.exists()
+
+
+def read_urls(project_name: str) -> list[tuple[str, str | None]]:
+    urls_file = PROJECTS_DIR / project_name / "urls.txt"
+    entries = []
+    for line in urls_file.read_text().splitlines():
+        url, name = parse_url_line(line)
+        if url:
+            entries.append((url, name))
+    return entries
