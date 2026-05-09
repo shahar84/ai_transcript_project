@@ -1,4 +1,4 @@
-# settings.py
+# config.py
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
 from pathlib import Path

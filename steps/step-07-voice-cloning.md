@@ -127,4 +127,4 @@ Drop a YouTube URL in `urls.txt`, run three commands, get a podcast episode in y
 
 ---
 
-Next: [What You Can Build Next](./step-06-whats-next.md)
+Next: [What You Can Build Next](./step-08-whats-next.md)

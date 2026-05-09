@@ -5,3 +5,19 @@ __pycache__
 *.egg-info
 projects/
 tests/fixtures/
+
+# Generated output files
+output/*.mp3
+output/*.wav
+output/*.txt
+output/*.json
+
+# Video files
+videos/*.mp4
+videos/*.webm
+
+# Voice samples
+voices/
+
+# macOS
+.DS_Store

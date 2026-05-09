@@ -93,14 +93,14 @@ Each change produces a completely different script from the same transcript. Thi
 
 ## What Makes a Good Podcast Script?
 
-A good script for text-to-speech (which we use in Step 8) has these qualities:
+A good script for text-to-speech (which we use in Step 7) has these qualities:
 
 - **No abbreviations** — write "for example" not "e.g.", "that is" not "i.e."
 - **No symbols** — write "percent" not "%", "dollars" not "$"
 - **Short sentences** — easier to speak and easier to follow
 - **Natural pauses** — periods and commas become pauses in TTS output
 
-If the generated script has any of the above issues, fix them before moving to Step 8.
+If the generated script has any of the above issues, fix them before moving to Step 7.
 
 ---
 
@@ -113,4 +113,4 @@ If the generated script has any of the above issues, fix them before moving to S
 
 ---
 
-Next: [Step 8 - Generating Your Podcast in Your Own Voice](./step-08-voice-cloning.md)
+Next: [Step 7 - Generating Your Podcast in Your Own Voice](./step-07-voice-cloning.md)

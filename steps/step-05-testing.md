@@ -149,4 +149,4 @@ Wait — does that pass? Run `uv run pytest -v` and check. If it fails, look at 
 
 ---
 
-Next: [Step 6 - What You Can Build Next](./step-06-whats-next.md)
+Next: [Step 6 - Writing the Podcast Script with AI](./step-06-podcast-script.md)
