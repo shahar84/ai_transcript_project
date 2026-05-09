@@ -3,46 +3,64 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
-This is a Python project that extracts audio from video files and transcribes them using Replicate's Whisper model. The main workflow is: video → audio extraction → AI transcription.
 
-## Setup and Dependencies
-First, install ffmpeg (required by MoviePy for video processing):
+A Python CLI tool that downloads YouTube videos and transcribes them using Replicate's Whisper model. Videos are organised into named projects, each with its own URL list, downloaded videos, and transcription outputs.
 
-**macOS:**
+**Pipeline:** YouTube URL → download (yt-dlp) → extract audio (MoviePy) → transcribe (Whisper via Replicate) → save .txt + .json
+
+## Setup
+
+Install ffmpeg:
 ```bash
-brew install ffmpeg
+brew install ffmpeg          # macOS
+choco install ffmpeg         # Windows
+sudo apt install ffmpeg      # Linux
 ```
 
-**Windows:**
-Download from https://ffmpeg.org/download.html or use:
+Install dependencies:
 ```bash
-choco install ffmpeg
+uv sync
 ```
 
-**Linux (Ubuntu/Debian):**
+Copy `.env.template` to `.env` and add your Replicate API token:
 ```bash
-sudo apt update && sudo apt install ffmpeg
+cp .env.template .env
 ```
 
-Then install Python dependencies:
+## Running the CLI
+
 ```bash
-pip install -r requirements.txt
+uv run transcript create my-project    # scaffold a new project
+uv run transcript run my-project       # download + transcribe all URLs
 ```
 
-## Running the Application
-```bash
-python main.py
-```
-
-Note: Before running, you need to:
-1. Add your Replicate API token to the `REPLICATE_API_TOKEN` variable in `main.py`
-2. Place a video file named `steve-interview.mp4` in the project root
+Edit `projects/my-project/urls.txt` to add YouTube URLs (one per line, optional name after a space).
 
 ## Architecture
-- `main.py` - Single-file application with three main functions:
-  - `extract_audio()` - Uses MoviePy to extract audio from video files
-  - `transcribe_audio()` - Sends audio to Replicate's Whisper API for transcription
-  - `main()` - Orchestrates the workflow and outputs JSON results
 
-## API Integration
-Uses Replicate's incredibly-fast-whisper model for transcription. The application makes HTTP requests to `https://api.replicate.com/v1/predictions` with the audio file and language parameters.
+```
+cli.py          Typer CLI — create and run commands
+project.py      Project scaffolding, URL parsing, skip logic
+downloader.py   yt-dlp wrapper — download videos, resolve titles
+main.py         Audio extraction (MoviePy) and transcription (Replicate)
+config.py       Pydantic settings loaded from .env
+```
+
+**Project folder structure:**
+```
+projects/
+  my-project/
+    urls.txt       YouTube URLs, one per line
+    videos/        Downloaded video files
+    output/        .mp3, .txt, .json per video
+```
+
+**Skip logic:** a video is considered complete when its `.json` output file exists. Re-running a project skips completed videos.
+
+## Tests
+
+```bash
+uv run pytest tests/ -v
+```
+
+Test fixtures (sample video files) live in `tests/fixtures/`.
