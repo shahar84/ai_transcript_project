@@ -2,9 +2,9 @@
 
 A Python tool that downloads YouTube videos and transcribes them using AI. Built step by step as a learning project.
 
-**The pipeline:**
+**The full pipeline:**
 ```
-YouTube URL  -->  download video  -->  extract audio  -->  AI transcription  -->  text files
+YouTube URL  -->  download  -->  extract audio  -->  transcribe  -->  LLM script  -->  your voice  -->  podcast .wav
 ```
 
 ---
@@ -20,7 +20,9 @@ Work through the steps in order. Each one builds on the previous.
 | [Step 3: Organizing with Projects](steps/step-03-projects.md) | Group related videos into named projects with URL lists |
 | [Step 4: Building a CLI](steps/step-04-cli.md) | Build a proper command-line tool with Typer |
 | [Step 5: Writing Tests](steps/step-05-testing.md) | Write automated tests with pytest and mocking |
-| [Step 6: What You Can Build Next](steps/step-06-whats-next.md) | Ideas for extending the project |
+| [Step 7: Writing the Podcast Script with AI](steps/step-07-podcast-script.md) | Use OpenAI to rewrite a transcript as a podcast monologue |
+| [Step 8: Generating Your Podcast in Your Own Voice](steps/step-08-voice-cloning.md) | Clone your voice locally with BlueTTS and produce a podcast episode |
+| [What You Can Build Next](steps/step-06-whats-next.md) | Ideas for extending the project further |
 
 ---
 

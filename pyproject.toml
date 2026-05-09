@@ -12,6 +12,8 @@ dependencies = [
     "openai",
     "yt-dlp",
     "typer",
+    "soundfile",
+    "numpy",
 ]
 
 [tool.uv]
@@ -25,4 +27,4 @@ dev-dependencies = [
 transcript = "cli:app"
 
 [tool.setuptools]
-py-modules = ["cli", "config", "downloader", "main", "project"]
+py-modules = ["cli", "config", "downloader", "llm", "main", "project", "tts"]
