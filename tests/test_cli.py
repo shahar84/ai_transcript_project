@@ -2,14 +2,13 @@ import pytest
 from unittest.mock import patch
 from typer.testing import CliRunner
 from cli import app
-import project
 import project as proj
 
 runner = CliRunner()
 
 
 def test_create_command_makes_project(tmp_path, monkeypatch):
-    monkeypatch.setattr(project, "PROJECTS_DIR", tmp_path / "projects")
+    monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     result = runner.invoke(app, ["create", "my-project"])
     assert result.exit_code == 0
     assert (tmp_path / "projects" / "my-project" / "videos").is_dir()
@@ -18,7 +17,7 @@ def test_create_command_makes_project(tmp_path, monkeypatch):
 
 
 def test_run_skips_completed_videos(tmp_path, monkeypatch):
-    monkeypatch.setattr(project, "PROJECTS_DIR", tmp_path / "projects")
+    monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     proj.create_project("my-project")
     urls_file = tmp_path / "projects" / "my-project" / "urls.txt"
@@ -33,7 +32,7 @@ def test_run_skips_completed_videos(tmp_path, monkeypatch):
 
 
 def test_run_processes_new_video(tmp_path, monkeypatch):
-    monkeypatch.setattr(project, "PROJECTS_DIR", tmp_path / "projects")
+    monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     proj.create_project("my-project")
     urls_file = tmp_path / "projects" / "my-project" / "urls.txt"
@@ -58,7 +57,7 @@ def test_run_processes_new_video(tmp_path, monkeypatch):
 
 
 def test_run_continues_after_error(tmp_path, monkeypatch):
-    monkeypatch.setattr(project, "PROJECTS_DIR", tmp_path / "projects")
+    monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     proj.create_project("my-project")
     urls_file = tmp_path / "projects" / "my-project" / "urls.txt"
@@ -88,7 +87,7 @@ def test_run_continues_after_error(tmp_path, monkeypatch):
 
 
 def test_run_missing_project(tmp_path, monkeypatch):
-    monkeypatch.setattr(project, "PROJECTS_DIR", tmp_path / "projects")
+    monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     result = runner.invoke(app, ["run", "nonexistent"])
     assert result.exit_code == 1

@@ -35,6 +35,7 @@ def run(name: str):
     total = len(entries)
     processed = 0
     skipped = 0
+    errored = 0
 
     for i, (url, video_name) in enumerate(entries, 1):
         if not video_name:
@@ -61,8 +62,9 @@ def run(name: str):
             processed += 1
         except Exception as e:
             typer.echo(f"{prefix} — ERROR: {e}", err=True)
+            errored += 1
 
-    typer.echo(f"\nDone. {processed} processed, {skipped} skipped.")
+    typer.echo(f"\nDone. {processed} processed, {skipped} skipped, {errored} failed.")
 
 
 if __name__ == "__main__":

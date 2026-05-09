@@ -44,8 +44,9 @@ def is_complete(project_name: str, video_name: str) -> bool:
 def read_urls(project_name: str) -> list[tuple[str, str | None]]:
     urls_file = PROJECTS_DIR / project_name / "urls.txt"
     entries = []
-    for line in urls_file.read_text().splitlines():
-        url, name = parse_url_line(line)
-        if url:
-            entries.append((url, name))
+    with urls_file.open() as f:
+        for line in f:
+            url, name = parse_url_line(line)
+            if url:
+                entries.append((url, name))
     return entries
