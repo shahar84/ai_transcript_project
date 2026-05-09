@@ -15,7 +15,14 @@ dependencies = [
 ]
 
 [tool.uv]
+package = true
 dev-dependencies = [
     "pytest",
     "pytest-mock",
 ]
+
+[project.scripts]
+transcript = "cli:app"
+
+[tool.setuptools]
+py-modules = ["cli", "config", "downloader", "main", "project"]

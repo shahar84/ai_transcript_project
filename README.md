@@ -58,9 +58,25 @@ The code expects a file named `steve-interview.mp4` in the videos folder. You ca
 - Edit line 152 in `main.py` to use your video filename
 
 ## Usage
+
+### Create a project
 ```bash
-uv run main.py
+uv run transcript create my-project
 ```
+
+Edit `projects/my-project/urls.txt` and add YouTube URLs:
+```
+# One URL per line. Name is optional — if omitted, the YouTube title is used.
+https://youtube.com/watch?v=abc
+https://youtube.com/watch?v=def my-interview
+```
+
+### Run the pipeline
+```bash
+uv run transcript run my-project
+```
+
+Re-running skips videos that have already been transcribed.
 
 ## Architecture
 The application consists of three main functions in `main.py`:
