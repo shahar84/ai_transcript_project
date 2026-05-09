@@ -73,4 +73,4 @@ def main(video_path: str | Path):
 
 
 if __name__ == "__main__":
-    main("videos/date.mp4")
+    main("tests/fixtures/date.mp4")
