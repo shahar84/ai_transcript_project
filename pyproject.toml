@@ -1,0 +1,21 @@
+[project]
+name = "ai-transcript-project"
+version = "0.1.0"
+description = "Extract audio from video files and transcribe them using AI"
+requires-python = ">=3.10"
+dependencies = [
+    "moviepy==1.0.3",
+    "requests==2.32.4",
+    "python-dotenv==1.1.1",
+    "pydantic-settings",
+    "replicate",
+    "openai",
+    "yt-dlp",
+    "typer",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+    "pytest-mock",
+]

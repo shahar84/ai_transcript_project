@@ -26,12 +26,12 @@ sudo apt update && sudo apt install ffmpeg
 
 Then install Python dependencies:
 ```bash
-pip install -r requirements.txt
+uv sync
 ```
 
 ## Running the Application
 ```bash
-python main.py
+uv run main.py
 ```
 
 Note: Before running, you need to:

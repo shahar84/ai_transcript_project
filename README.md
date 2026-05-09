@@ -3,11 +3,24 @@
 A Python application that extracts audio from video files and transcribes them using Replicate's Whisper model. The main workflow is: video → audio extraction → AI transcription.
 
 ## Prerequisites
-- Python 3.x
+- Python 3.10+
+- [UV](https://docs.astral.sh/uv/) (fast Python package manager)
 - Replicate API account and token
 
 ## Setup
-1. Install ffmpeg (required by MoviePy for video processing):
+1. Install UV if you don't have it:
+
+**macOS / Linux:**
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+**Windows:**
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+2. Install ffmpeg (required by MoviePy for video processing):
 
 **macOS:**
 ```bash
@@ -25,15 +38,9 @@ choco install ffmpeg
 sudo apt update && sudo apt install ffmpeg
 ```
 
-2. Create and activate a Python virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
 3. Install dependencies:
 ```bash
-pip install -r requirements.txt
+uv sync
 ```
 
 4. Create a `.env` file from the template and add your Replicate API token:
@@ -52,7 +59,7 @@ The code expects a file named `steve-interview.mp4` in the videos folder. You ca
 
 ## Usage
 ```bash
-python main.py
+uv run main.py
 ```
 
 ## Architecture
