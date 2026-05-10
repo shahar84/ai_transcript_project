@@ -20,6 +20,6 @@ podcast/
 
 # Test fixtures
 tests/fixtures/
-
+docs/plans
 # macOS
 .DS_Store
