@@ -51,14 +51,15 @@ print(f"\nFound {len(entries)} URL(s).")
 total = len(entries)
 for i, (url, video_name) in enumerate(entries, 1):
 
-    # Resolve name from YouTube if not given
+    # Resolve name from YouTube if not given, then slugify either way
     if not video_name:
-        video_name = proj.slugify(get_video_title(url))
+        video_name = get_video_title(url)
+    video_name = proj.slugify(video_name)
 
     prefix = f"[{i}/{total}] {video_name}"
 
-    # Skip logic: if the .json file already exists, the full pipeline ran successfully
-    if proj.is_complete(PROJECT_NAME, video_name):
+    # Skip if the .json file in transcripts/ already exists
+    if proj.is_transcribed(PROJECT_NAME, video_name):
         print(f"{prefix} - already done, skipping")
         continue
 
@@ -67,16 +68,16 @@ for i, (url, video_name) in enumerate(entries, 1):
         video_path = download_video(url, video_name, project_dir / "videos")
 
         print(f"{prefix} - extracting audio...")
-        audio_path = extract_audio(video_path, project_dir / "output")
+        audio_path = extract_audio(video_path, project_dir / "audio")
 
         print(f"{prefix} - transcribing...")
         result = transcribe_audio(audio_path)
-        save_transcription(result, video_path, project_dir / "output")
+        save_transcription(result, video_path, project_dir / "transcripts")
 
     except Exception as e:
         print(f"{prefix} - ERROR: {e}")
         continue
 
-print(f"\nAll done! Files are in: {project_dir / 'output'}/")
+print(f"\nAll done! Transcripts are in: {project_dir / 'transcripts'}/")
 print("\nThis is exactly what the CLI does. Try it yourself:")
 print(f"  uv run transcript run {PROJECT_NAME}")

@@ -11,11 +11,15 @@ projects/
   my-lectures/
     urls.txt          <-- list of YouTube URLs to process
     videos/           <-- downloaded videos
-    output/           <-- transcriptions
+    audio/            <-- extracted audio
+    transcripts/      <-- transcriptions
+    podcast/          <-- generated script and episode
   product-demos/
     urls.txt
     videos/
-    output/
+    audio/
+    transcripts/
+    podcast/
 ```
 
 ---
@@ -48,7 +52,7 @@ Creates the folder structure for a new project and writes a starter `urls.txt` w
 
 Reads `urls.txt` and returns a list of `(url, name)` pairs, skipping blank lines and comments.
 
-### `is_complete(project_name, video_name)`
+### `is_transcribed(project_name, video_name)`
 
 Checks whether a video has already been transcribed by looking for its `.json` output file. This is how the pipeline avoids re-processing videos you already have.
 
@@ -75,11 +79,11 @@ print(slugify("How I Built a $1M Company in 90 Days!"))
 
 ## The Skip Logic
 
-`is_complete()` is a simple but important function:
+`is_transcribed()` is a simple but important function:
 
 ```python
-def is_complete(project_name: str, video_name: str) -> bool:
-    json_path = PROJECTS_DIR / project_name / "output" / f"{video_name}.json"
+def is_transcribed(project_name: str, video_name: str) -> bool:
+    json_path = PROJECTS_DIR / project_name / "transcripts" / f"{video_name}.json"
     return json_path.exists()
 ```
 
@@ -105,7 +109,7 @@ proj.create_project("my-test")
 proj.read_urls("my-test")  # returns []
 
 # Check if a video is complete
-proj.is_complete("my-test", "some-video")  # returns False
+proj.is_transcribed("my-test", "some-video")  # returns False
 ```
 
 Open `projects/my-test/urls.txt` in your editor — the starter template should be there.
@@ -115,7 +119,7 @@ Open `projects/my-test/urls.txt` in your editor — the starter template should 
 ## Checkpoint
 
 - [ ] I understand the folder structure a project creates
-- [ ] I understand why `is_complete()` exists and what problem it solves
+- [ ] I understand why `is_transcribed()` exists and what problem it solves
 - [ ] I can explain what `slugify` does and why it matters
 
 ---

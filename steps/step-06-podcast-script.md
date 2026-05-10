@@ -1,4 +1,4 @@
-# Step 7: Writing the Podcast Script with AI
+# Step 6: Writing the Podcast Script with AI
 
 ## What We're Building
 
@@ -113,4 +113,4 @@ If the generated script has any of the above issues, fix them before moving to S
 
 ---
 
-Next: [Step 7 - Generating Your Podcast in Your Own Voice](./step-07-voice-cloning.md)
+Next: [Step 7 - Generating Your Podcast Audio](./step-07-podcast-audio.md)

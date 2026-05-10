@@ -20,13 +20,13 @@ import replicate
 import soundfile as sf
 
 from config import settings
+from tts import split_into_chunks
 
 replicate.api_token = settings.REPLICATE_API_TOKEN
 
 PROJECT_NAME = "my-first-project"
 PROJECTS_DIR = Path("projects")
 
-MAX_CHUNK_CHARS = 250
 VOICE = "Kore"          # change this to try different voices
 STYLE_PROMPT = "Speak in an engaging, conversational podcast tone."
 
@@ -45,26 +45,12 @@ print(f"Script loaded ({len(script_text)} characters)")
 # The TTS model has a character limit per request.
 # We split on sentence boundaries so the audio joins cleanly.
 
-def split_into_chunks(text: str) -> list[str]:
-    sentences = text.replace("\n", " ").split(". ")
-    chunks, current = [], ""
-    for sentence in sentences:
-        part = sentence.strip() + ". "
-        if len(current) + len(part) > MAX_CHUNK_CHARS and current:
-            chunks.append(current.strip())
-            current = part
-        else:
-            current += part
-    if current.strip():
-        chunks.append(current.strip())
-    return chunks
-
 chunks = split_into_chunks(script_text)
 print(f"Split into {len(chunks)} chunks")
 
 # --- Part 3: Synthesize each chunk ---
 audio_segments = []
-sample_rate = None
+sample_rate: int = 0
 
 for i, chunk in enumerate(chunks, 1):
     print(f"  Synthesizing chunk {i}/{len(chunks)}...")
@@ -77,9 +63,8 @@ for i, chunk in enumerate(chunks, 1):
             "language_code": "en-US",
         },
     )
-    audio, sr = sf.read(io.BytesIO(output.read()))
+    audio, sample_rate = sf.read(io.BytesIO(output.read()))
     audio_segments.append(audio)
-    sample_rate = sr
 
 # --- Part 4: Join and save ---
 combined = np.concatenate(audio_segments)

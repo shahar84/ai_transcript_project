@@ -237,7 +237,7 @@ Explain that Gemini TTS is a text-to-speech model that supports named voices and
 
 The chunking concept is worth explaining before they look at the code: the model has a character limit per request, so long scripts get split into sentence-sized pieces, each piece gets synthesized separately, and then the audio arrays get joined back together.
 
-**Direct students to:** `steps/step-07-voice-cloning.md`
+**Direct students to:** `steps/step-07-podcast-audio.md`
 
 **What to show live**
 

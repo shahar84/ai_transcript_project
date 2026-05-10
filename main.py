@@ -73,4 +73,8 @@ def main(video_path: str | Path):
 
 
 if __name__ == "__main__":
-    main("tests/fixtures/date.mp4")
+    import sys
+    if len(sys.argv) != 2:
+        print("Usage: uv run main.py path/to/video.mp4")
+        sys.exit(1)
+    main(sys.argv[1])
