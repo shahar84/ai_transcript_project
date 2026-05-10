@@ -68,25 +68,26 @@ OPENAI_API_KEY=sk-...
 ```
 
 ```bash
-uv run transcript script my-project my-video-name
-# output: projects/my-project/output/my-video-name-podcast-script.txt
+uv run transcript script my-project
+# combines all transcripts → projects/my-project/podcast/script.txt
 ```
 
 ---
 
-## Step 8 — Podcast in Your Own Voice (BlueTTS)
-
-Record 30–60 seconds of yourself speaking (WAV, quiet room) and save it:
+## Step 8 — Podcast Audio (Gemini TTS)
 
 ```bash
-mkdir voices
-# save your recording as voices/my-voice.wav
+uv run transcript podcast my-project
+# output: projects/my-project/podcast/episode.wav
+
+# optional: choose a different voice
+uv run transcript podcast my-project --voice-name Zephyr
 ```
 
-```bash
-uv run transcript podcast my-project my-video-name --voice voices/my-voice.wav
-# output: projects/my-project/output/my-video-name-podcast.wav
-```
+Available voices: Achernar, Achird, Algenib, Algieba, Alnilam, Aoede, Autonoe,
+Callirrhoe, Charon, Despina, Enceladus, Erinome, Fenrir, Gacrux, Iapetus, Kore (default),
+Laomedeia, Leda, Orus, Pulcherrima, Puck, Rasalgethi, Sadachbia, Sadaltager,
+Schedar, Sulafat, Umbriel, Vindemiatrix, Zephyr, Zubenelgenubi
 
 ---
 
@@ -94,8 +95,8 @@ uv run transcript podcast my-project my-video-name --voice voices/my-voice.wav
 
 ```
 urls.txt
-  --> uv run transcript run my-project        (download + transcribe)
-  --> uv run transcript script my-project ...  (LLM script)
-  --> uv run transcript podcast my-project ... (your voice)
-  --> podcast episode .wav
+  --> uv run transcript run my-project      (download + transcribe)
+  --> uv run transcript script my-project   (LLM script from all transcripts)
+  --> uv run transcript podcast my-project  (Gemini TTS audio)
+  --> projects/my-project/podcast/episode.wav
 ```

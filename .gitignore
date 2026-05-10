@@ -1,23 +1,25 @@
+# IDE
 .idea
 .venv
+.claude
+
+# Secrets
 .env
+
+# Python
 __pycache__
 *.egg-info
+
+# Project generated content
 projects/
+videos/
+voice_sample*/
+audio/
+transcripts/
+podcast/
+
+# Test fixtures
 tests/fixtures/
-
-# Generated output files
-output/*.mp3
-output/*.wav
-output/*.txt
-output/*.json
-
-# Video files
-videos/*.mp4
-videos/*.webm
-
-# Voice samples
-voices/
-
+docs/plans
 # macOS
 .DS_Store

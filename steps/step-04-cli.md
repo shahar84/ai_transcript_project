@@ -69,7 +69,7 @@ uv run transcript run my-lectures
 
 This is the main pipeline. For each URL in `urls.txt` it:
 
-1. Checks if the video is already done (`is_complete`) — if yes, skips it
+1. Checks if the video is already transcribed (`is_transcribed`) — if yes, skips it
 2. Downloads the video (`download_video`)
 3. Extracts audio (`extract_audio`)
 4. Transcribes audio (`transcribe_audio`)

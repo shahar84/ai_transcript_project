@@ -12,19 +12,20 @@ def test_create_command_makes_project(tmp_path, monkeypatch):
     result = runner.invoke(app, ["create", "my-project"])
     assert result.exit_code == 0
     assert (tmp_path / "projects" / "my-project" / "videos").is_dir()
-    assert (tmp_path / "projects" / "my-project" / "output").is_dir()
+    assert (tmp_path / "projects" / "my-project" / "audio").is_dir()
+    assert (tmp_path / "projects" / "my-project" / "transcripts").is_dir()
+    assert (tmp_path / "projects" / "my-project" / "podcast").is_dir()
     assert "my-project" in result.output
 
 
 def test_run_skips_completed_videos(tmp_path, monkeypatch):
     monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
-    monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     proj.create_project("my-project")
     urls_file = tmp_path / "projects" / "my-project" / "urls.txt"
     urls_file.write_text("https://youtube.com/watch?v=abc my-video\n")
-    output_dir = tmp_path / "projects" / "my-project" / "output"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / "my-video.json").touch()
+    transcripts_dir = tmp_path / "projects" / "my-project" / "transcripts"
+    transcripts_dir.mkdir(parents=True, exist_ok=True)
+    (transcripts_dir / "my-video.json").touch()
 
     result = runner.invoke(app, ["run", "my-project"])
     assert result.exit_code == 0
@@ -32,7 +33,6 @@ def test_run_skips_completed_videos(tmp_path, monkeypatch):
 
 
 def test_run_processes_new_video(tmp_path, monkeypatch):
-    monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     proj.create_project("my-project")
     urls_file = tmp_path / "projects" / "my-project" / "urls.txt"
@@ -42,7 +42,7 @@ def test_run_processes_new_video(tmp_path, monkeypatch):
 
     with (
         patch("cli.download_video", return_value=fake_video) as mock_dl,
-        patch("cli.extract_audio", return_value="output/my-video.mp3") as mock_audio,
+        patch("cli.extract_audio", return_value="audio/my-video.mp3") as mock_audio,
         patch("cli.transcribe_audio", return_value={"text": "hello", "chunks": []}) as mock_tr,
         patch("cli.save_transcription") as mock_save,
     ):
@@ -57,7 +57,6 @@ def test_run_processes_new_video(tmp_path, monkeypatch):
 
 
 def test_run_continues_after_error(tmp_path, monkeypatch):
-    monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     proj.create_project("my-project")
     urls_file = tmp_path / "projects" / "my-project" / "urls.txt"
@@ -75,7 +74,7 @@ def test_run_continues_after_error(tmp_path, monkeypatch):
 
     with (
         patch("cli.download_video", side_effect=fail_first_succeed_second),
-        patch("cli.extract_audio", return_value="output/good-video.mp3"),
+        patch("cli.extract_audio", return_value="audio/good-video.mp3"),
         patch("cli.transcribe_audio", return_value={"text": "hello", "chunks": []}),
         patch("cli.save_transcription"),
     ):
@@ -87,7 +86,6 @@ def test_run_continues_after_error(tmp_path, monkeypatch):
 
 
 def test_run_missing_project(tmp_path, monkeypatch):
-    monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     monkeypatch.setattr(proj, "PROJECTS_DIR", tmp_path / "projects")
     result = runner.invoke(app, ["run", "nonexistent"])
     assert result.exit_code == 1

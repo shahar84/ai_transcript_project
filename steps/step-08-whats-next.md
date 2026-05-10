@@ -1,4 +1,4 @@
-# Step 6: What You Can Build Next
+# Step 8: What You Can Build Next
 
 ## You Made It
 

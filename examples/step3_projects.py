@@ -3,9 +3,10 @@
 # When you have multiple videos to transcribe, things get messy fast.
 # This step introduces the idea of "projects" — a named folder that
 # holds everything related to a group of videos:
-#   - urls.txt      list of YouTube URLs to process
-#   - videos/       downloaded video files
-#   - output/       transcripts and audio
+#   - urls.txt       list of YouTube URLs to process
+#   - videos/        downloaded video files
+#   - audio/         extracted .mp3 files
+#   - transcripts/   .txt and .json transcripts
 #
 # This script creates a project manually and processes its URL list.
 # In Step 4 we will package this into a proper CLI tool.
@@ -18,6 +19,7 @@ import yt_dlp
 from moviepy.editor import VideoFileClip
 import replicate
 from config import settings
+from project import slugify
 
 replicate.api_token = settings.REPLICATE_API_TOKEN
 
@@ -29,7 +31,8 @@ project_dir = PROJECTS_DIR / PROJECT_NAME
 print(f"Setting up project: {PROJECT_NAME}")
 
 (project_dir / "videos").mkdir(parents=True, exist_ok=True)
-(project_dir / "output").mkdir(parents=True, exist_ok=True)
+(project_dir / "audio").mkdir(parents=True, exist_ok=True)
+(project_dir / "transcripts").mkdir(parents=True, exist_ok=True)
 
 # Create a urls.txt if it doesn't exist yet
 urls_file = project_dir / "urls.txt"
@@ -56,6 +59,7 @@ def parse_line(line):
     parts = line.split(" ", 1)
     return parts[0], parts[1].strip() if len(parts) > 1 else None
 
+
 entries = []
 for line in urls_file.open():
     url, name = parse_line(line)
@@ -72,16 +76,17 @@ print(f"\nFound {len(entries)} URL(s) to process.")
 for i, (url, name) in enumerate(entries, 1):
     print(f"\n[{i}/{len(entries)}] Processing...")
 
-    # Resolve name from YouTube title if not given
+    # Resolve name from YouTube title if not given, then slugify either way
     if not name:
         with yt_dlp.YoutubeDL({"quiet": True}) as ydl:
             info = ydl.extract_info(url, download=False)
-            name = info["title"].lower().replace(" ", "-")
+            name = info["title"]
+    name = slugify(name)
 
     print(f"  Name: {name}")
 
-    # Skip if already done — the .json file is the completion marker
-    json_path = project_dir / "output" / f"{name}.json"
+    # Skip if already done — the .json file in transcripts/ is the completion marker
+    json_path = project_dir / "transcripts" / f"{name}.json"
     if json_path.exists():
         print(f"  Already done, skipping.")
         continue
@@ -100,7 +105,7 @@ for i, (url, name) in enumerate(entries, 1):
 
     # Extract audio
     print(f"  Extracting audio...")
-    audio_path = project_dir / "output" / f"{name}.mp3"
+    audio_path = project_dir / "audio" / f"{name}.mp3"
     with VideoFileClip(str(video_path)) as clip:
         clip.audio.write_audiofile(str(audio_path))
 
@@ -110,10 +115,10 @@ for i, (url, name) in enumerate(entries, 1):
         result = replicate.run(settings.TRANSCRIBE_MODEL, input={"audio": f})
 
     # Save
-    (project_dir / "output" / f"{name}.txt").write_text(result["text"], encoding="utf-8")
+    (project_dir / "transcripts" / f"{name}.txt").write_text(result["text"], encoding="utf-8")
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
 
-    print(f"  Done. Transcript saved to output/{name}.txt")
+    print(f"  Done. Transcript saved to transcripts/{name}.txt")
 
-print(f"\nAll done! Find your files in: {project_dir}/output/")
+print(f"\nAll done! Find your transcripts in: {project_dir}/transcripts/")

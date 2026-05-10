@@ -1,5 +1,5 @@
 import pytest
-from project import parse_url_line, slugify, create_project, is_complete, read_urls
+from project import parse_url_line, slugify, create_project, is_transcribed, read_urls
 
 
 def test_parse_url_only():
@@ -41,7 +41,9 @@ def test_slugify_extra_spaces():
 def test_create_project_makes_folders(projects_dir):
     create_project("my-project")
     assert (projects_dir / "my-project" / "videos").is_dir()
-    assert (projects_dir / "my-project" / "output").is_dir()
+    assert (projects_dir / "my-project" / "audio").is_dir()
+    assert (projects_dir / "my-project" / "transcripts").is_dir()
+    assert (projects_dir / "my-project" / "podcast").is_dir()
 
 
 def test_create_project_makes_urls_file(projects_dir):
@@ -54,16 +56,16 @@ def test_create_project_idempotent(projects_dir):
     create_project("my-project")  # should not raise
 
 
-def test_is_complete_false_when_no_json(projects_dir):
+def test_is_transcribed_false_when_no_json(projects_dir):
     create_project("my-project")
-    assert not is_complete("my-project", "video1")
+    assert not is_transcribed("my-project", "video1")
 
 
-def test_is_complete_true_when_json_exists(projects_dir):
+def test_is_transcribed_true_when_json_exists(projects_dir):
     create_project("my-project")
-    json_path = projects_dir / "my-project" / "output" / "video1.json"
+    json_path = projects_dir / "my-project" / "transcripts" / "video1.json"
     json_path.touch()
-    assert is_complete("my-project", "video1")
+    assert is_transcribed("my-project", "video1")
 
 
 def test_read_urls_parses_file(projects_dir):

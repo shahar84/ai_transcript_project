@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "title": "Input",
+  "required": ["text"],
+  "properties": {
+    "text": {
+      "type": "string",
+      "title": "Text",
+      "x-order": 0,
+      "description": "The text to convert to speech. Supports markup tags like [sigh], [laughing], [whispering], [shouting], [extremely fast] for expressive delivery. Maximum 4,000 bytes."
+    },
+    "voice": {
+      "enum": [
+        "Achernar", "Achird", "Algenib", "Algieba", "Alnilam", "Aoede",
+        "Autonoe", "Callirrhoe", "Charon", "Despina", "Enceladus", "Erinome",
+        "Fenrir", "Gacrux", "Iapetus", "Kore", "Laomedeia", "Leda", "Orus",
+        "Pulcherrima", "Puck", "Rasalgethi", "Sadachbia", "Sadaltager",
+        "Schedar", "Sulafat", "Umbriel", "Vindemiatrix", "Zephyr", "Zubenelgenubi"
+      ],
+      "type": "string",
+      "title": "voice",
+      "description": "Voice to use for speech generation",
+      "default": "Kore",
+      "x-order": 1
+    },
+    "prompt": {
+      "type": "string",
+      "title": "Prompt",
+      "default": "Say the following.",
+      "x-order": 2,
+      "description": "Style instructions to control how the text is spoken. Use natural language to describe the desired tone, pace, accent, and emotion. For example: \"Say this in a calm, professional tone\" or \"Speak with excitement and energy\". Maximum 4,000 bytes."
+    },
+    "language_code": {
+      "enum": [
+        "af-ZA", "am-ET", "ar-001", "ar-EG", "az-AZ", "be-BY", "bg-BG",
+        "bn-BD", "ca-ES", "ceb-PH", "cmn-CN", "cmn-tw", "cs-CZ", "da-DK",
+        "de-DE", "el-GR", "en-AU", "en-GB", "en-IN", "en-US", "es-419",
+        "es-ES", "es-MX", "et-EE", "eu-ES", "fa-IR", "fi-FI", "fil-PH",
+        "fr-CA", "fr-FR", "gl-ES", "gu-IN", "he-IL", "hi-IN", "hr-HR",
+        "ht-HT", "hu-HU", "hy-AM", "id-ID", "is-IS", "it-IT", "ja-JP",
+        "jv-JV", "ka-GE", "kn-IN", "ko-KR", "kok-IN", "la-VA", "lb-LU",
+        "lo-LA", "lt-LT", "lv-LV", "mai-IN", "mg-MG", "mk-MK", "ml-IN",
+        "mn-MN", "mr-IN", "ms-MY", "my-MM", "nb-NO", "ne-NP", "nl-NL",
+        "nn-NO", "or-IN", "pa-IN", "pl-PL", "ps-AF", "pt-BR", "pt-PT",
+        "ro-RO", "ru-RU", "sd-IN", "si-LK", "sk-SK", "sl-SI", "sq-AL",
+        "sr-RS", "sv-SE", "sw-KE", "ta-IN", "te-IN", "th-TH", "tr-TR",
+        "uk-UA", "ur-PK", "vi-VN"
+      ],
+      "type": "string",
+      "title": "language_code",
+      "description": "Language for the speech output",
+      "default": "en-US",
+      "x-order": 3
+    }
+  }
+}

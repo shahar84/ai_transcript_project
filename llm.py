@@ -27,9 +27,9 @@ def generate_podcast_script(transcript_text: str) -> str:
     return response.choices[0].message.content
 
 
-def save_script(script_text: str, video_name: str, output_folder: Path) -> Path:
-    output_folder = Path(output_folder)
-    output_folder.mkdir(parents=True, exist_ok=True)
-    script_path = output_folder / f"{video_name}-podcast-script.txt"
+def save_script(script_text: str, podcast_dir: Path) -> Path:
+    podcast_dir = Path(podcast_dir)
+    podcast_dir.mkdir(parents=True, exist_ok=True)
+    script_path = podcast_dir / "script.txt"
     script_path.write_text(script_text, encoding="utf-8")
     return script_path

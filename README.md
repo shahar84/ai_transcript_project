@@ -4,7 +4,7 @@ A Python tool that downloads YouTube videos and transcribes them using AI. Built
 
 **The full pipeline:**
 ```
-YouTube URL  -->  download  -->  extract audio  -->  transcribe  -->  LLM script  -->  your voice  -->  podcast .wav
+YouTube URL  -->  download  -->  extract audio  -->  transcribe  -->  LLM script  -->  Gemini TTS  -->  podcast .wav
 ```
 
 ---
@@ -21,7 +21,7 @@ Work through the steps in order. Each one builds on the previous.
 | [Step 4: Building a CLI](steps/step-04-cli.md) | Build a proper command-line tool with Typer |
 | [Step 5: Writing Tests](steps/step-05-testing.md) | Write automated tests with pytest and mocking |
 | [Step 6: Writing the Podcast Script with AI](steps/step-06-podcast-script.md) | Use OpenAI to rewrite a transcript as a podcast monologue |
-| [Step 7: Generating Your Podcast in Your Own Voice](steps/step-07-voice-cloning.md) | Clone your voice with XTTS v2 via Replicate and produce a podcast episode |
+| [Step 7: Generating Your Podcast Audio](steps/step-07-podcast-audio.md) | Synthesize your podcast episode using Gemini TTS via Replicate |
 | [What You Can Build Next](steps/step-08-whats-next.md) | Ideas for extending the project further |
 
 ---
@@ -42,10 +42,10 @@ uv run transcript create my-project
 uv run transcript run my-project
 ```
 
-Output files land in `projects/my-project/output/`:
-- `video-name.txt` — plain text transcript
-- `video-name.json` — full data with timestamps
-- `video-name.mp3` — extracted audio
+Output files land in:
+- `projects/my-project/audio/` — extracted `.mp3` files
+- `projects/my-project/transcripts/` — `.txt` and `.json` transcripts
+- `projects/my-project/podcast/` — `script.txt` and `episode.wav`
 
 ---
 
